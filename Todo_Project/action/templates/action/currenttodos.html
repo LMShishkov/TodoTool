@@ -6,7 +6,11 @@
 
     {% block content %}
 
-    Current
+    <ul>
+        {% for action in actions %}
+        <li>{{ action.title}}</li>
+        {% endfor %}
+    </ul>
 
     {% endblock %}
 
