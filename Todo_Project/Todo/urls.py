@@ -29,5 +29,8 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('current/', views.currenttodos, name='currenttodos'),
     path('create/', views.createaction, name='createaction'),
-    path('action/<int:action_pk>', views.viewaction, name='viewaction')
+    path('action/<int:action_pk>', views.viewaction, name='viewaction'),
+    path('action/<int:action_pk>/complete', views.completeaction, name='completeaction'),
+    path('action/<int:action_pk>/delete', views.deleteaction, name='deleteaction')
+
 ]

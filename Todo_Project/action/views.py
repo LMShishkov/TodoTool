@@ -5,6 +5,7 @@ from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
 from .forms import CreateActionForm
 from .models import Action
+from django.utils import timezone
 
 
 def home(request):
@@ -69,5 +70,29 @@ def createaction(request):
 
 
 def viewaction(request, action_pk):
-    action = get_object_or_404(Action, pk=action_pk)
-    return render(request, 'action/viewaction.html', {'action':action})
+    action = get_object_or_404(Action, pk=action_pk, user=request.user)
+    if request.method == 'GET':
+            form = CreateActionForm(instance=action)
+            return render(request, 'action/viewaction.html', {'action':action, 'form':form})
+    else:
+        try:
+            form = CreateActionForm(request.POST, instance=action)
+            form.save()
+            return redirect('currenttodos')
+        except ValueError:
+            return render(request, 'action/viewaction.html', {'action':action, 'form':form, 'error': 'Title too long'})
+
+
+def completeaction(request, action_pk):
+    action = get_object_or_404(Action, pk=action_pk, user=request.user)
+    if request.method == 'POST':
+        action.date_completed = timezone.now()
+        action.save()
+        return redirect('currenttodos')
+
+
+def deleteaction(request, action_pk):
+    action = get_object_or_404(Action, pk=action_pk, user=request.user)
+    if request.method == 'POST':
+        action.delete()
+        return redirect('currenttodos')
