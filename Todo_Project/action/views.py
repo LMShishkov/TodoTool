@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
@@ -50,7 +50,7 @@ def logoutuser(request):
 
 
 def currenttodos(request):
-    actions = Action.objects.filter(user=request.user)
+    actions = Action.objects.filter(user=request.user, date_completed__isnull=True)
     return render(request, 'action/currenttodos.html', {'actions':actions})
 
 
@@ -66,3 +66,8 @@ def createaction(request):
             return redirect('currenttodos')
         except ValueError:
             return render(request, 'action/createaction.html', {'form': CreateActionForm(), 'error':'Title too long'})
+
+
+def viewaction(request, action_pk):
+    action = get_object_or_404(Action, pk=action_pk)
+    return render(request, 'action/viewaction.html', {'action':action})

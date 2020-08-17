@@ -8,7 +8,12 @@
 
     <ul>
         {% for action in actions %}
-        <li>{{ action.title}}</li>
+        <li>
+            <a href="{% url 'viewaction' action.id %}">
+                {% if action.important %}<b>{% endif %}{{ action.title }}{% if action.important %}</b>
+            {% endif %}{% if action.memo %} - {{ action.memo }}{% endif %}
+            </a>
+        </li>
         {% endfor %}
     </ul>
 

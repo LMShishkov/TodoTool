@@ -26,7 +26,8 @@ urlpatterns = [
     path('login/', views.loginuser, name='loginuser'),
 
     # Action
+    path('', views.home, name='home'),
     path('current/', views.currenttodos, name='currenttodos'),
     path('create/', views.createaction, name='createaction'),
-    path('', views.home, name='home')
+    path('action/<int:action_pk>', views.viewaction, name='viewaction')
 ]
