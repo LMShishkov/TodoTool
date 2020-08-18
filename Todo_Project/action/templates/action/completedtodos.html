@@ -5,20 +5,20 @@
     <meta charset="UTF-8">
 
     {% block content %}
-    <h3>Current Acitons</h3>
+    <h3>Completed Acitons</h3>
     <br>
     <ul>
         {% for action in actions %}
         <li>
             <a href="{% url 'viewaction' action.id %}">
-                {% if action.important %}<b>{% endif %}{{ action.title }}{% if action.important %}</b>
+            {% if action.important %}<b>{% endif %}{{ action.title }}{% if action.important %}</b>
             {% endif %}{% if action.memo %} - {{ action.memo }}{% endif %}
-            </a>
+                <br></a>
+            {{ action.date_completed|date:'M j Y H:i' }}
         </li>
         {% endfor %}
     </ul>
 
-    <!-- <a href="{% url 'createaction' %}" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Create</a> -->
 
     {% endblock %}
 
